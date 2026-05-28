@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}WeChat EXP — 仪表盘{% endblock %}
+{% block content %}
+<div class="dashboard-section">
+  <h2>数据采集</h2>
+  <p class="section-subtitle">一键备份微信聊天数据</p>
+  <div class="dashboard-grid">
+    <a href="/backup" class="dashboard-card">
+      <div class="card-icon">📦</div>
+      <div class="card-title">一键备份</div>
+      <div class="card-desc">扫描 → 解密 → 迁移媒体 → 构建索引，完整备份微信数据</div>
+    </a>
+  </div>
+</div>
+
+<div class="dashboard-section">
+  <h2>浏览与分析</h2>
+  <p class="section-subtitle">查看聊天记录、年度报告与词云</p>
+  <div class="dashboard-grid">
+    <a href="/chat" class="dashboard-card">
+      <div class="card-icon">💬</div>
+      <div class="card-title">聊天查看器</div>
+      <div class="card-desc">浏览所有聊天记录，支持搜索、筛选、图片/视频/语音播放</div>
+    </a>
+    <a href="/wrapped" class="dashboard-card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">年度报告</div>
+      <div class="card-desc">Spotify Wrapped 风格年度数据总结，8 张精彩卡片</div>
+    </a>
+    <a href="/wordcloud" class="dashboard-card">
+      <div class="card-icon">☁️</div>
+      <div class="card-title">词云分析</div>
+      <div class="card-desc">智能中文分词 + 词频统计，生成交互式词云图</div>
+    </a>
+  </div>
+</div>
+
+<div class="dashboard-section">
+  <h2>导出</h2>
+  <p class="section-subtitle">聊天记录、报告与员工报表导出</p>
+  <div class="dashboard-grid">
+    <a href="/export" class="dashboard-card">
+      <div class="card-icon">📤</div>
+      <div class="card-title">聊天导出</div>
+      <div class="card-desc">按联系人、时间范围导出聊天记录为 TXT/HTML 格式</div>
+    </a>
+    <a href="/employee" class="dashboard-card">
+      <div class="card-icon">👤</div>
+      <div class="card-title">员工报表</div>
+      <div class="card-desc">上传员工 Excel，批量匹配微信联系人并导出聊天</div>
+    </a>
+    <a href="/report" class="dashboard-card">
+      <div class="card-icon">📄</div>
+      <div class="card-title">综合报告</div>
+      <div class="card-desc">生成 HTML 综合数据报告：概览卡片 + 饼图 + 趋势 + 热力图</div>
+    </a>
+  </div>
+</div>
+
+<div class="dashboard-section">
+  <h2>工具</h2>
+  <p class="section-subtitle">密钥提取与数据库解密</p>
+  <div class="dashboard-grid">
+    <a href="/keyscan" class="dashboard-card">
+      <div class="card-icon">🔑</div>
+      <div class="card-title">提取密钥</div>
+      <div class="card-desc">从微信进程内存中提取数据库解密密钥</div>
+    </a>
+    <a href="/decrypt" class="dashboard-card">
+      <div class="card-icon">🔓</div>
+      <div class="card-title">解密数据库</div>
+      <div class="card-desc">使用已有密钥批量解密微信聊天数据库</div>
+    </a>
+  </div>
+</div>
+{% endblock %}

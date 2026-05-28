@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}提取密钥 — WeChat EXP{% endblock %}
+{% block content %}
+<a href="/" class="back-link">← 返回仪表盘</a>
+<h2 style="margin:0 0 4px 0">🔑 提取密钥</h2>
+<p style="color:#8b949e;font-size:12px;margin:0 0 20px 0">从微信进程内存中扫描 SQLCipher 数据库密钥</p>
+
+<div class="config-panel">
+  <div class="form-row">
+    <div><label>&nbsp;</label><button id="btn-run" class="btn btn-primary">开始扫描</button></div>
+  </div>
+  <p style="font-size:11px;color:#d29922;margin-top:8px">⚠ 请确保微信已登录运行，否则无法从内存中提取密钥。</p>
+</div>
+
+<div id="progress-container" class="progress-panel" style="display:none">
+  <div class="progress-bar-outer"><div id="progress-bar" class="progress-bar-inner" style="width:0%"></div></div>
+  <div id="progress-detail" class="progress-detail">等待开始...</div>
+  <div id="log-console" class="log-console" style="margin-top:12px"></div>
+</div>
+
+<div id="result-container" class="result-panel" style="display:none">
+  <h3>✓ 密钥提取完成</h3>
+  <div id="result-content"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/sse_progress.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wizard.js') }}"></script>
+<script>
+const page = new WizardPage({
+  runBtnId: 'btn-run',
+  apiUrl: '/api/backup/keyscan',
+  steps: ['scan'],
+  getBody: () => ({ force: false }),
+});
+
+page.showResult = function(result) {
+  WizardPage.prototype.showResult.call(this, result);
+  let html = '<dl class="result-stats">';
+  if (result.keys !== undefined) html += '<dt>发现密钥</dt><dd>' + result.keys + ' 个</dd>';
+  if (result.file) html += '<dt>保存位置</dt><dd><code>' + result.file + '</code></dd>';
+  html += '</dl>';
+  if (result.output) {
+    html += '<pre style="font-size:11px;background:#0d1117;padding:8px;border-radius:4px;max-height:200px;overflow:auto;margin-top:8px">' + result.output + '</pre>';
+  }
+  document.getElementById('result-content').innerHTML = html;
+};
+</script>
+{% endblock %}

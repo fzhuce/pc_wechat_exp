@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}解密数据库 — WeChat EXP{% endblock %}
+{% block content %}
+<a href="/" class="back-link">← 返回仪表盘</a>
+<h2 style="margin:0 0 4px 0">🔓 解密数据库</h2>
+<p style="color:#8b949e;font-size:12px;margin:0 0 20px 0">使用密钥文件批量解密微信聊天数据库</p>
+
+<div class="config-panel">
+  <div class="form-row">
+    <div style="flex:2"><label>微信数据目录 (db_storage)</label><input id="cfg-db-dir" placeholder="例如: D:\xwechat_files\wxid_xxx\db_storage"></div>
+    <div style="flex:2"><label>输出目录</label><input id="cfg-output" placeholder="解密后存放位置"></div>
+    <div><label>&nbsp;</label><button id="btn-run" class="btn btn-primary">开始解密</button></div>
+  </div>
+</div>
+
+<div id="progress-container" class="progress-panel" style="display:none">
+  <div class="progress-bar-outer"><div id="progress-bar" class="progress-bar-inner" style="width:0%"></div></div>
+  <div id="progress-detail" class="progress-detail">等待开始...</div>
+  <div id="log-console" class="log-console" style="margin-top:12px"></div>
+</div>
+
+<div id="result-container" class="result-panel" style="display:none">
+  <h3>✓ 解密完成</h3>
+  <div id="result-content"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/sse_progress.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wizard.js') }}"></script>
+<script>
+const page = new WizardPage({
+  runBtnId: 'btn-run',
+  apiUrl: '/api/backup/decrypt',
+  steps: ['decrypt'],
+  getBody: () => ({
+    db_dir: document.getElementById('cfg-db-dir').value,
+    output_dir: document.getElementById('cfg-output').value,
+  }),
+});
+
+page.showResult = function(result) {
+  WizardPage.prototype.showResult.call(this, result);
+  let html = '<dl class="result-stats">';
+  if (result.decrypted !== undefined) html += '<dt>已解密数据库</dt><dd>' + result.decrypted + ' 个</dd>';
+  if (result.files) html += '<dt>文件列表</dt><dd>' + result.files.map(f => '<code>' + f + '</code>').join('<br>') + '</dd>';
+  html += '</dl>';
+  document.getElementById('result-content').innerHTML = html;
+};
+</script>
+{% endblock %}
