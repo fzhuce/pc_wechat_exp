@@ -4,7 +4,7 @@ env:
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天北京时间 8:00 同步
+    - cron: '0 9 * * 1'  # 每周一9点同步 
   workflow_dispatch:      # 支持手动触发
 
 jobs:
